@@ -1,0 +1,1 @@
+{"version":1,"defects":{"GoogleSearchTest::testGoogleSearchResults":4,"GoogleScraperTest::testGoogleSearchResults":4,"GoogleScraperTest::testGoogleScraperResults":4},"times":{"GoogleSearchTest::testGoogleSearchResults":0.198,"GoogleScraperTest::testGoogleSearchResults":0.113,"GoogleScraperTest::testGoogleScraperResults":0.521}}

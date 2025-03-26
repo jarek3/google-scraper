@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Scraper</title>
+</head>
+<body>
+<h1>Google Scraper</h1>
+<form id="searchForm">
+    <label for="query">Zadejte klíčové slovo:</label>
+    <input type="text" id="query" name="q" required>
+    <button type="submit">Hledat</button>
+</form>
+
+<div id="results"></div>
+
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const query = document.getElementById('query').value;
+        fetch(`/backend.php?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsContainer = document.getElementById('results');
+                if (data.results) {
+                    resultsContainer.innerHTML = '<h2>Výsledky vyhledávání:</h2>';
+                    data.results.forEach(result => {
+                        resultsContainer.innerHTML += `<p><a href="${result.url}" target="_blank">${result.title}</a></p>`;
+                    });
+                } else {
+                    resultsContainer.innerHTML = `<p>${data.error}</p>`;
+                }
+            })
+            .catch(error => console.error('Chyba při načítání výsledků:', error));
+    });
+</script>
+
+<button onclick="downloadResults()">Stáhnout výsledky</button>
+
+<script>
+    function downloadResults() {
+        const results = <?php echo json_encode($results); ?>;
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(results, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "google_results.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+</script>
+</body>
+</html>
