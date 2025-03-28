@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
 if (!isset($_GET['q']) || empty($_GET['q'])) {
@@ -30,5 +33,3 @@ foreach ($data['items'] as $item) {
 }
 
 echo json_encode(["results" => $results], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-?>
